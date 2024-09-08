@@ -1,7 +1,7 @@
 /dist/
 node_modules/
 yarn-error.log
-
+tags
 
 # Output
 .output
