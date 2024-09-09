@@ -2,7 +2,7 @@
 node_modules/
 yarn-error.log
 
-#observable framework
+# Observable framework
 src/.observablehq/cache/
 
 # Output
@@ -24,3 +24,7 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Local dev
+/dotfiles/
+tags
