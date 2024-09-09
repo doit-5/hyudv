@@ -1,7 +1,9 @@
 /dist/
 node_modules/
 yarn-error.log
-tags
+
+#observable framework
+src/.observablehq/cache/
 
 # Output
 .output
