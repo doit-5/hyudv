@@ -25,6 +25,7 @@
 
 ```js
 import * as d3 from "npm:d3";
+import { button } from "npm:@observablehq/inputs";
 import { professorLecturePlot } from '../components/professorLecture/professorLecturePlot.js';
 ```
 
@@ -36,9 +37,9 @@ const professorLectureUniv = FileAttachment("../data/professorLecture/professorL
 });
 ```
 
-```js
-display(acinfo);
-```
+<!-- ```js
+display(acinfoSchoolType);
+``` -->
 
 # 정보공시 현황
 
@@ -46,9 +47,27 @@ display(acinfo);
 
 ## 1. 전임교원 강의담당비율
 
+```js
+const regions = view(
+  Inputs.radio(["대학","전문대학"],{
+    value: "대학",
+    label: html`<b>학교종류</b>`,
+    format: (x) =>
+      html`<span style="
+          text-transform: capitalize;
+          border-bottom: solid 2px ${x};
+          margin-bottom: -2px;
+        ">${x}</span>`
+  })
+);
+```
+```js
+const acinfoSchoolTypes = acinfo.filter(d => regions.includes(d.학교종류));
+```
+
 <div class="grid grid-cols-1">
   <div class="card">
-    ${resize((width) => professorLecturePlot(acinfo, {
+    ${resize((width) => professorLecturePlot(acinfoSchoolTypes, {
     width,
     y: {grid: true, label: "전임교원강의담당비율(%)"},
     x: {label: "지역명(가나다 순)"}}
