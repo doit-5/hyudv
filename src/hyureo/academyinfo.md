@@ -25,6 +25,7 @@
 
 ```js
 import * as d3 from "npm:d3";
+import { button } from "npm:@observablehq/inputs";
 import { professorLecturePlot } from '../components/professorLecture/professorLecturePlot.js';
 ```
 
@@ -36,9 +37,9 @@ const professorLectureUniv = FileAttachment("../data/professorLecture/professorL
 });
 ```
 
-```js
-display(acinfo);
-```
+<!-- ```js
+display(filteredAcinfo);
+``` -->
 
 # 정보공시 현황
 
@@ -46,9 +47,47 @@ display(acinfo);
 
 ## 1. 전임교원 강의담당비율
 
+```js
+const schoolType1 = view(
+  Inputs.checkbox(["대학","전문대학"],{
+    value: ["대학", "전문대학"],
+    label: html`<b>학교종류</b>`,
+    format: (x) =>
+      html`<span style="
+          text-transform: capitalize;
+          border-bottom: solid 2px ${x};
+          margin-bottom: -2px;
+        ">${x}</span>`
+  })
+);
+```
+```js
+const schoolType2 = view(
+  Inputs.checkbox(["사립", "공립","국립", "국립대법인", "특별법법인"],{
+    value: ["사립", "공립","국립", "국립대법인", "특별법법인"],
+    label: html`<b>설립유형</b>`,
+    format: (x) =>
+      html`<span style="
+          text-transform: capitalize;
+          border-bottom: solid 2px ${x};
+          margin-bottom: -2px;
+        ">${x}</span>`
+  })
+);
+```
+
+
+```js
+const filteredAcinfo = acinfo.filter(d => 
+  (schoolType1.length === 0 || schoolType1.includes(d.학교종류)) && 
+  (schoolType2.length === 0 || schoolType2.includes(d.설립유형))
+);
+
+```
+
 <div class="grid grid-cols-1">
   <div class="card">
-    ${resize((width) => professorLecturePlot(acinfo, {
+    ${resize((width) => professorLecturePlot(filteredAcinfo, {
     width,
     y: {grid: true, label: "전임교원강의담당비율(%)"},
     x: {label: "지역명(가나다 순)"}}
